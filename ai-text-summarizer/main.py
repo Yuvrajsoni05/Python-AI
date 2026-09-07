@@ -15,4 +15,5 @@ response = client.models.generate_content(
     contents=f"summarize the following text in 5-6 line:\n\n {text}",
 )
 print("\nSummary:\n")
+print(response.output[0].content)
 print(response.text)
