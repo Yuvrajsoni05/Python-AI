@@ -1,63 +1,39 @@
-# =========================
-# Python
-# =========================
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Virtual Environment
-.venv/
-venv/
-env/
-ENV/
-
-# Environment Variables
-.env
-.env.*
-
 # IDE
-.vscode/
 .idea/
+.vscode/
 
-# OS Files
+# OS files
 .DS_Store
 Thumbs.db
-
-# Logs
-*.log
-
-# Build
-build/
-dist/
-*.egg-info/
-
-# Test & Coverage
-.pytest_cache/
-.coverage
-htmlcov/
 
 # Jupyter
 .ipynb_checkpoints/
 
-# Type Checkers
-.mypy_cache/
-.pyre/
-.pytype/
+# Logs
+*.log
 
-# Ruff
-.ruff_cache/
-
-# Pyright
-.pyright/
-
-# Local Database
-*.db
+# Local databases
 *.sqlite3
+*.db
 
-# Temporary Files
-*.tmp
-*.temp
-
-# Generated Files
-summary.txt
-output.txt
+# Secrets / credentials
+*.pem
+*.key
+credentials.json
+token.json
+service-account.json
