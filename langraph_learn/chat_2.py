@@ -9,7 +9,7 @@ from openai import  OpenAI
 
 load_dotenv()
 
-client = OpenAI
+client = OpenAI()
 class State(TypedDict):
     user_query: str
     llm_output: Optional[str]
@@ -19,30 +19,30 @@ class State(TypedDict):
 def chatbot(state:State):
     print(state)
     response = client.chat.completions.create(
-        model="openai:gpt-4o-mini",
+        model="gpt-4o-mini",
         messages=[
             {"role":"user","content":state["user_query"]},
         ]
     )
-    state["llm_output"] =  response.choices[0].messages.content
+    state["llm_output"] =  response.choices[0].message.content
     return state
 
 
 def evaluate_response(state:State) -> Literal["chatbot_geminin","endnode"]:
     if True:
-        return ""
+        return "endnode"
     return "chatbot_gemini"
 
 
 def chatbot_geminin(state:State):
     print(state)
     response = client.chat.completions.create(
-        model="openai:gpt-4o-mini",
+        model="gpt-4o-mini",
         messages=[
             {"role": "user", "content": state["user_query"]},
         ]
     )
-    state["llm_output"] = response.choices[0].messages.content
+    state["llm_output"] = response.choices[0].message.content
     return state
 
 
@@ -55,6 +55,13 @@ graph_builder.add_node("chatbot_geminin",chatbot_geminin)
 graph_builder.add_node("endnode",endnode)
 
 graph_builder.add_edge(START, "chatbot")
-graph_builder.add_conditional_edges("chatbot", "evaluate_response")
+graph_builder.add_conditional_edges("chatbot", evaluate_response)
 
-graph_builder.add_edge("chatbot_geminin", "chatbot_geminin")
+graph_builder.add_edge("chatbot_geminin", "endnode")
+graph_builder.add_edge("endnode", END)
+
+graph =  graph_builder.compile()
+
+update_state = graph.invoke(State({"user_query":"Hey what is 2 + 2 ?"}))
+print(update_state)
+
